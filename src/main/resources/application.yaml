@@ -1,0 +1,21 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: user-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:x6product}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+springdoc:
+  swagger-ui:
+    path: swagger-ui
+  open-api:
+    info:
+      title: Product
+      description: Апи микросервиса товаров для системы Marketplace
+      version: 1.0.0
+      contact:
+        name: Kiryakov Denis
+        email: KiryakovDenis@mail.ru
