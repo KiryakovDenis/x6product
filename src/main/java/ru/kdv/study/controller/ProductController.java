@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping("/exist")
-    @Operation(summary = "Проверить существова")
+    @Operation(summary = "Проверить существование товаров с указанными id")
     public List<ProductExist> checkExistingProduct(@RequestBody final List<Long> listProductId) {
         return productService.productExistList(listProductId);
     }

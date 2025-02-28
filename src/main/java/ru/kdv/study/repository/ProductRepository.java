@@ -1,6 +1,7 @@
 package ru.kdv.study.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -8,8 +9,12 @@ import org.springframework.stereotype.Repository;
 import ru.kdv.study.Exception.DataBaseException;
 import ru.kdv.study.Exception.NoDataFoundException;
 import ru.kdv.study.model.Product;
+import ru.kdv.study.model.ProductExist;
 import ru.kdv.study.repository.mapper.ExistProductMapper;
 import ru.kdv.study.repository.mapper.ProductMapper;
+
+import java.util.List;
+import java.util.StringJoiner;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,10 +41,11 @@ public class ProductRepository {
              WHERE id = :id
             """;
 
-    private static String EXIST_BY_ID = """
-            SELECT EXISTS(SELECT 1
-                           FROM product.product
-                          WHERE id = :id) as value
+    private static String EXIST_BY_ARRAY_ID = """
+            SELECT u.product_id as id, p.id IS NOT NULL is_exist
+              FROM product.product p
+              RIGHT JOIN (SELECT UNNEST::int product_id
+                            FROM unnest(string_to_array(:ids, ','))) u ON u.product_id = p.id
             """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -70,11 +76,16 @@ public class ProductRepository {
         }
     }
 
-    public Boolean existById(final Long id) {
+    public List<ProductExist> existById(final List<Long> listProductId) {
         try {
-            return jdbcTemplate.queryForObject(EXIST_BY_ID, new MapSqlParameterSource("id", id) , existProductMapper);
+            String listIds = StringUtils.join(listProductId, ',');
+            return jdbcTemplate.query(
+                    EXIST_BY_ARRAY_ID,
+                    new MapSqlParameterSource("ids", listIds),
+                    existProductMapper
+            );
         } catch (Exception e) {
-            throw handleExceptionProduct(e, id);
+            throw handleExceptionProduct(e);
         }
     }
 
@@ -94,7 +105,11 @@ public class ProductRepository {
         } else if (e.getMessage().contains("product_uk1")) {
             return DataBaseException.create(String.format("Товар с именем \"%s\" уже существует", product.getName()));
         } else {
-            return DataBaseException.create(e.getMessage());
+            return DataBaseException.create(new StringJoiner("\n")
+                    .add(e.getMessage())
+                    .add(e.getCause().getMessage())
+                    .toString()
+            );
         }
     }
 
@@ -102,7 +117,19 @@ public class ProductRepository {
         if (e instanceof EmptyResultDataAccessException) {
             return NoDataFoundException.create(String.format("Товар не найден [%s]", id));
         } else {
-            return DataBaseException.create(e.getMessage());
+            return DataBaseException.create(new StringJoiner("\n")
+                    .add(e.getMessage())
+                    .add(e.getCause().getMessage())
+                    .toString()
+            );
         }
+    }
+
+    private RuntimeException handleExceptionProduct(Exception e) {
+        return DataBaseException.create(new StringJoiner("\n")
+                .add(e.getMessage())
+                .add(e.getCause().getMessage())
+                .toString()
+        );
     }
 }

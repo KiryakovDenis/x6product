@@ -37,12 +37,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductExist> productExistList(List<Long> productList) {
-        return productList.stream()
-                .map((Long id) -> {
-                    return new ProductExist(id, productRepository.existById(id));
-                })
-                .toList();
+    public List<ProductExist> productExistList(List<Long> productListId) {
+        return productRepository.existById(productListId);
     }
 
     private void validate(final Product product) {
