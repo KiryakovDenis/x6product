@@ -20,28 +20,27 @@ import java.util.StringJoiner;
 @RequiredArgsConstructor
 public class ProductRepository {
 
-    private static String INSERT = """
-            INSERT 
-              INTO product.product ("name", price) 
+    private static final String INSERT = """
+            INSERT INTO product.product ("name", price)
             VALUES(:name, :price)
             RETURNING *
             """;
 
-    private static String UPDATE = """
-            UPDATE product.product 
+    private static final String UPDATE = """
+            UPDATE product.product
                SET "name" = :name,
                    price = :price
              WHERE id = :id
             RETURNING *
             """;
 
-    private static String SELECT_BY_ID = """
+    private static final String SELECT_BY_ID = """
             SELECT id, "name", price, create_date
               FROM product.product
              WHERE id = :id
             """;
 
-    private static String EXIST_BY_ARRAY_ID = """
+    private static final String EXIST_BY_ARRAY_ID = """
             SELECT u.product_id as id, p.id IS NOT NULL is_exist
               FROM product.product p
               RIGHT JOIN (SELECT UNNEST::int product_id
@@ -58,7 +57,7 @@ public class ProductRepository {
         } catch (Exception e) {
             throw handleExceptionProduct(e, product);
         }
-    };
+    }
 
     public Product update(final Product product) {
         try {
