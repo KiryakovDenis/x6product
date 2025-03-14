@@ -2,6 +2,7 @@ package ru.kdv.study.service;
 
 import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -32,6 +33,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value="x6Product", key="#id")
     public Product getById(final Long id) {
         return productRepository.getById(id);
     }
