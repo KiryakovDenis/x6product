@@ -1,6 +1,5 @@
 package ru.kdv.study.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
