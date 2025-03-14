@@ -68,9 +68,7 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Валидация null значения в качестве названия товара")
     public void validateNameNullValue(){
-        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> {
-           productService.create(productNullName);
-        });
+        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> productService.create(productNullName));
     }
 
     private final Product productEmptyName = Product.builder()
@@ -83,9 +81,7 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Валидация пустой строки в качестве названия товара")
     public void validateNameEmptyValue(){
-        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> {
-            productService.create(productEmptyName);
-        });
+        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> productService.create(productEmptyName));
     }
 
     private final Product productNullPrice = Product.builder()
@@ -98,9 +94,7 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Валидация null в качестве цены товара")
     public void validatePriceNullValue(){
-        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> {
-            productService.create(productNullPrice);
-        });
+        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> productService.create(productNullPrice));
     }
 
     private final Product productNegativePrice = Product.builder()
@@ -113,9 +107,7 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Валидация отрицательного значения в качестве цены товара")
     public void validatePriceNegativeValue(){
-        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> {
-            productService.create(productNegativePrice);
-        });
+        BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> productService.create(productNegativePrice));
     }
 
 }
