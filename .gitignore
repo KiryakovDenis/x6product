@@ -46,3 +46,4 @@ bin/
 ### GIGA IDE ###
 .gigaide/
 .idea/
+/gradle/
