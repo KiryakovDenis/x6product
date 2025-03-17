@@ -5,7 +5,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ru.kdv.study.Exception.BadRequestException;
+import ru.kdv.study.exception.BadRequestException;
 import ru.kdv.study.model.Product;
 import ru.kdv.study.model.ProductExist;
 import ru.kdv.study.repository.ProductRepository;

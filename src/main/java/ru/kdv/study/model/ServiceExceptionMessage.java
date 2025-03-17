@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ServiceException {
+public class ServiceExceptionMessage {
     String message;
 }

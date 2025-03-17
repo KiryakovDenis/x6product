@@ -45,7 +45,6 @@ bin/
 
 ### GIGA IDE ###
 .gigaide/
-.idea/
 /gradle/
 /gradlew
 /gradlew.bat

@@ -1,4 +1,4 @@
-package ru.kdv.study.Exception;
+package ru.kdv.study.exception;
 
 public class BadRequestException extends RuntimeException{
 

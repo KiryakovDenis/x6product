@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.kdv.study.Exception.BadRequestException;
+import ru.kdv.study.exception.BadRequestException;
 import ru.kdv.study.model.Product;
 import ru.kdv.study.repository.ProductRepository;
 import ru.kdv.study.service.ProductService;
